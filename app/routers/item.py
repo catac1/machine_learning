@@ -202,6 +202,34 @@ async def get_item_list(page: int = 1, limit: int = 10):
         return {"message": str(e)}
 
 
+# 물품목록 => 127.0.0.1:8000/api/item/list1?page=1&limit=10
+@router.get("/list1")
+async def get_item_list(page: int = 1, limit: int = 10):
+    try:
+        query = {}
+
+        projection = {
+            "_id": 0,
+            "filedata": 0,
+            "filetype": 0,
+            "filename": 0,
+            "filesize": 0,
+        }
+        skip = (page - 1) * limit
+
+        total = await item.count_documents(query)
+        t1 = await item.find(query, projection).skip(skip).limit(limit).to_list(limit)
+
+        # 반복문을 사용해서 새로운 imgurl 생성
+        for doc in t1:
+            doc["imgurl"] = f"/api/item/image1?no={doc["no"]}"
+            print(doc)
+
+        return {"list": t1, "total": total}
+    except Exception as e:
+        return {"message": str(e)}
+
+
 def print_bson(oid):
     timestamp_raw, random_value, counter = struct.unpack(">I5s3s", oid.binary)
     print(f"--- Information Inside ObjectId: {oid} ---")
