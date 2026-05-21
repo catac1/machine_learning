@@ -2,4 +2,4 @@
 
 from fastapi import APIRouter
 
-router = APIRouter(prefix="/api/member")
+router = APIRouter(prefix="/api/member", tags=["member"])
