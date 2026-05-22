@@ -9,6 +9,7 @@ db = client["db1"]
 board = db["board"]
 counter = db["counter"]
 item = db["item"]
+member = db["member"]
 
 customer = db["customer"]
 react_item = db["react_item"]
