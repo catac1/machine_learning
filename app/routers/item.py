@@ -180,7 +180,6 @@ async def get_item_list(page: int = 1, limit: int = 10):
 
         projection = {
             "_id": 1,
-            "filedata": 0,
             "filetype": 0,
             "filename": 0,
             "filesize": 0,
@@ -195,7 +194,10 @@ async def get_item_list(page: int = 1, limit: int = 10):
             id_bson = doc["_id"]
             print_bson(id_bson)
             doc["_id"] = str(id_bson)
-            doc["imgurl"] = f"/api/item/image?no={doc["no"]}"
+            if doc.pop("filedata", None) is not None:
+                doc["imgurl"] = f"/api/item/image?no={doc['no']}"
+            else:
+                doc["imgurl"] = f"/api/item/image1?no={doc['no']}"
 
         return {"list": t1, "total": total}
     except Exception as e:
@@ -210,7 +212,7 @@ async def get_item_list(page: int = 1, limit: int = 10):
 
         projection = {
             "_id": 0,
-            "filedata": 0,
+            # "filedata": 1,
             "filetype": 0,
             "filename": 0,
             "filesize": 0,
@@ -222,9 +224,10 @@ async def get_item_list(page: int = 1, limit: int = 10):
 
         # 반복문을 사용해서 새로운 imgurl 생성
         for doc in t1:
-            doc["imgurl"] = f"/api/item/image1?no={doc["no"]}"
-            print(doc)
-
+            if doc.pop("filedata", None) is not None:
+                doc["imgurl"] = f"/api/item/image?no={doc['no']}"
+            else:
+                doc["imgurl"] = f"/api/item/image1?no={doc['no']}"
         return {"list": t1, "total": total}
     except Exception as e:
         return {"message": str(e)}
