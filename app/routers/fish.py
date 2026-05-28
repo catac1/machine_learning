@@ -6,15 +6,19 @@ router = APIRouter(prefix="/api/fish", tags=["fish"])
 
 model = joblib.load("./pkl/20260519_lasso.joblib")
 
+
 def _model_name(pipeline):
     steps = " + ".join(
-        type(step).__name__ + (
-            f"(degree={step.degree})" if hasattr(step, "degree") else
-            f"(alpha={step.alpha})"   if hasattr(step, "alpha")  else ""
+        type(step).__name__
+        + (
+            f"(degree={step.degree})"
+            if hasattr(step, "degree")
+            else f"(alpha={step.alpha})" if hasattr(step, "alpha") else ""
         )
         for _, step in pipeline.steps
     )
     return steps
+
 
 FISH_CSV_URL = "http://114.207.245.181:13000/csv/fish01.csv"
 
@@ -57,9 +61,18 @@ async def scatter_data():
             "rmse": round(root_mean_squared_error(y_actual, y_pred), 2),
             "model_name": _model_name(model),
             "feature_range": {
-                "length": {"min": float(perch["Length"].min()), "max": float(perch["Length"].max())},
-                "width":  {"min": float(perch["Width"].min()),  "max": float(perch["Width"].max())},
-                "height": {"min": float(perch["Height"].min()), "max": float(perch["Height"].max())},
+                "length": {
+                    "min": float(perch["Length"].min()),
+                    "max": float(perch["Length"].max()),
+                },
+                "width": {
+                    "min": float(perch["Width"].min()),
+                    "max": float(perch["Width"].max()),
+                },
+                "height": {
+                    "min": float(perch["Height"].min()),
+                    "max": float(perch["Height"].max()),
+                },
             },
         }
     except Exception as e:
