@@ -16,7 +16,7 @@ if uploaded_file is not None:
         }
         try:
             response = requests.post(
-                "http://localhost:8000/api/predict/number", files=files
+                "http://localhost:8000/api/predict/deep_number", files=files
             )
             data = response.json()
             if data.get("status") == "ok":

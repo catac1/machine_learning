@@ -6,8 +6,9 @@ import pandas as pd
 import os
 
 # 스케일러와 모델 로드하기
-scaler = joblib.load("../pkl/20260529_sales_scaler.pkl")
-model = load_model("../pkl/20260529_sales_model.keras")
+# scaler = joblib.load("../pkl/20260529_sales_scaler.pkl")
+# model = load_model("../pkl/20260529_sales_model.keras")
+model = load_model("../pkl/20260101_iris.keras")
 
 st.title("광고 판매량 예측")
 
@@ -25,7 +26,7 @@ if st.button("예측하기"):
     sample = np.array([[tv, radio, newspaper]])
 
     # 2. 스케일링
-    sample = scaler.transform(sample)
+    # sample = scaler.transform(sample)
 
     # 3. 예측
     pred = model.predict(sample)
