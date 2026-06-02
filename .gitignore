@@ -1,4 +1,15 @@
 __pycache__
 app/uploads
 
+*.joblib
+*.pkl
+*.mp4
+
+model/
+pkl/
 flower_photos/
+image/
+video/
+driver/
+csv/
+dataset/
